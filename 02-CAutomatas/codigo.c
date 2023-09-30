@@ -8,10 +8,16 @@ int opcionValida(int opcion);
 
 //Punto 1
 
-int columna(int x){
+int columnaDecimales(int x){
 	switch(x){
 		case '+':
 			return 1;
+		case '-':
+			return 1;	
+		case '0':
+			return 0;
+		default:
+			return 2;
 	}
 }
 
@@ -21,13 +27,21 @@ int esDecimal(char *cadena){
 						  {2,4,2},
 						  {4,4,4},
 						  {4,4,4},						
-					     }
+					     };
 	int estado = 0;
 	int i = 0;
+
 	int aux = cadena[i];
 	while(aux!='\0'){
-		estado = tt[estado][columna(aux)];
+		
+		estado = tt[estado][columnaDecimales(aux)];
+		aux=cadena[++i];
+		
 	}
+	if(estado == 2 || estado == 3){
+		return 1;
+	}
+	return 0;
 }
 int esOctal(char *cadena){
 	
@@ -36,7 +50,7 @@ int esHexadecimal(char *cadena){
 	
 }
 
-void esPalabra(char cadena){
+void esPalabra(char *cadena){
 	if(!(esDecimal(cadena) || esOctal(cadena) || esHexadecimal(cadena))){
 		printf("Hubo un error lexico\n");
 		return 0;
