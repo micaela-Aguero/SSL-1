@@ -143,7 +143,7 @@ int main() {
 
 
 void menu(){
-	printf("\n               %s\n\n%s\n\n %s\n %s\n %s\n", "MENU", "Ingresar Opcion:","1. Reconocer constantes enteras", "2. Caracter numerico a Int", "3. Resultado de operacion matematica");
+	printf("\n%s\n\n%s\n\n %s\n %s\n %s\n", "MENU", "Ingresar Opcion:","1. Reconocer constantes enteras", "2. Caracter numerico a Int", "3. Resultado de operacion matematica");
 	int opcion;
 	scanf("%i", &opcion);
 	while(!opcionValida(opcion)){
