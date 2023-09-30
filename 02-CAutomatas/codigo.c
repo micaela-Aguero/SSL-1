@@ -39,6 +39,7 @@ int esDecimal(char *cadena){
 		
 	}
 	if(estado == 2 || estado == 3){
+	//	printf("es decimal\n");
 		return 1;
 	}
 	return 0;
@@ -53,10 +54,7 @@ int esHexadecimal(char *cadena){
 void esPalabra(char *cadena){
 	if(!(esDecimal(cadena) || esOctal(cadena) || esHexadecimal(cadena))){
 		printf("Hubo un error lexico\n");
-		return 0;
 	}
-	printf("es palabra\n");
-	return 1;
 }
 
 void reconocerPorAutomata(char cadenaEnteros[]){
@@ -82,6 +80,7 @@ void funcionPuntoDos(){
 	char caracter;
 	scanf("%c", &caracter);
 	printf("%i", caracterAInt(caracter));
+		menu();
 }
 
 void funcionPuntoUno(){
@@ -90,7 +89,7 @@ void funcionPuntoUno(){
 	if(!verifica(cadenaEnteros)){
 		printf("Hay caracteres que no pertenecen al alfabeto\n");
 	}else reconocerPorAutomata(cadenaEnteros);
-	
+		menu();
 }
 
 int verifica(char cadenaEnteros[]){
@@ -111,7 +110,7 @@ int esCaracterHexa(char *caracter){
 	return 0;
 }
 
-int main(int argc, char *argv[]) {
+int main() {
 /*	char caracter;
 	printf("%i", caracterAInt(caracter));*/
 
