@@ -45,29 +45,49 @@ int esDecimal(char *cadena){
 	return 0;
 }
 int esOctal(char *cadena){
-	
+	return 0;
 }
 int esHexadecimal(char *cadena){
-	
+	return 0;
 }
 
-void esPalabra(char *cadena){
+/*void esPalabra(char *cadena){
 	if(!(esDecimal(cadena) || esOctal(cadena) || esHexadecimal(cadena))){
 		printf("Hubo un error lexico\n");
 	}
-}
+}*/
 
 void reconocerPorAutomata(char cadenaEnteros[]){
 	char *token;
+	int decimales = 0;
+	int octales = 0;
+	int hexadecimales = 0;
 	token = strtok(cadenaEnteros, "$");
-	esPalabra(token);
+	if(esDecimal(token)){
+		decimales++;
+	}else if(esOctal(token)){
+		octales++;
+	}else if (esHexadecimal(token)){
+		hexadecimales++;
+	}else{
+		printf("Hubo error lexico\n");
+	}
 	while (token != NULL){
         token = strtok(NULL, "$");
         if (token != NULL){
-            esPalabra(token);
+		if(esDecimal(token)){
+			decimales++;
+		}else if(esOctal(token)){
+			octales++;
+		}else if (esHexadecimal(token)){
+			hexadecimales++;
+		}else{
+			printf("Hubo error lexico\n");
+		}
+	            
         }
     }
-	
+	printf("\n%s%i\n%s%i\n%s%i\n", "- Cantidad decimales: ", decimales, "- Cantidad octales: ", octales, "- Cantidad hexadecimales: ", hexadecimales);
 }
 
 
