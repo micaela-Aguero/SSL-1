@@ -93,7 +93,7 @@ int esOctal(char *cadena){
 
 	int aux = cadena[i];
 	while(aux!='\0'){
-		printf("\n\%c  %i\n\n", cadena[i++], estado);
+		printf("\n%c  %i\n\n", cadena[i++], estado);
 		estado = tt[estado][columnaOctales(aux)];
 		aux=cadena[++i];
 		
