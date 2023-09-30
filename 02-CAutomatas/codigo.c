@@ -8,6 +8,32 @@ int opcionValida(int opcion);
 
 //Punto 1
 
+
+int columnaOctales(int x){
+	switch(x){
+		case '0':
+			return 0;
+		case '1':
+			return 1;	
+		case '2':
+			return 1;
+		case '3':
+			return 1;
+		case '4':
+			return 1;
+		case '5':
+			return 1;
+		case '6':
+			return 1;
+		case '7':
+			return 1;
+	/*	default:
+			return 0;*/
+		
+
+	}
+}
+
 int columnaDecimales(int x){
 	switch(x){
 		case '+':
@@ -16,6 +42,19 @@ int columnaDecimales(int x){
 			return 1;	
 		case '0':
 			return 0;
+		default:
+			return 2;
+	}
+}
+
+int columnaHexadecimales(char x){
+	switch(x){
+		case '0':
+			return 0;
+		case 'X':
+			return 1;	
+		case 'x':
+			return 1;
 		default:
 			return 2;
 	}
@@ -45,9 +84,49 @@ int esDecimal(char *cadena){
 	return 0;
 }
 int esOctal(char *cadena){
+	const int tt[3][2] = {{1,2},
+						  {1,1},
+						  {2,2},						
+					     };
+	int estado = 0;
+	int i = 0;
+
+	int aux = cadena[i];
+	while(aux!='\0'){
+		printf("\n\%c  %i\n\n", cadena[i++], estado);
+		estado = tt[estado][columnaOctales(aux)];
+		aux=cadena[++i];
+		
+	}
+	if(estado == 1){
+	//	printf("es octal\n");
+		return 1;
+	}
+	
 	return 0;
 }
 int esHexadecimal(char *cadena){
+	const int tt[5][3] = {{1,4,4},
+						  {4,2,4},
+						  {3,4,3},
+						  {3,4,3},
+						  {4,4,4},						
+					     };
+	int estado = 0;
+	int i = 0;
+
+	int aux = cadena[i];
+	while(aux!='\0'){
+		estado = tt[estado][columnaHexadecimales(aux)];
+		printf("\n\nasdasd\n\n");
+		aux=cadena[++i];
+		
+		
+	}
+	if(estado == 3){
+	//	printf("es hexadecimal\n");
+		return 1;
+	}
 	return 0;
 }
 
@@ -132,6 +211,17 @@ int esCaracterHexa(char *caracter){
 
 
 
+
+
+
+
+
+void funcionPuntoTres(){
+}
+
+
+
+
 int main() {
 /*	char caracter;
 	printf("%i", caracterAInt(caracter));*/
@@ -145,7 +235,7 @@ int main() {
 
 
 void menu(){
-	printf("\n%s\n\n%s\n\n %s\n %s\n %s\n", "MENU", "Ingresar Opcion:","1. Reconocer constantes enteras", "2. Caracter numerico a Int", "3. Resultado de operacion matematica");
+	printf("\n               %s\n\n%s\n\n %s\n %s\n %s\n", "MENU", "Ingresar Opcion:","1. Reconocer constantes enteras", "2. Caracter numerico a Int", "3. Resultado de operacion matematica");
 	int opcion;
 	scanf("%i", &opcion);
 	while(!opcionValida(opcion)){
@@ -164,7 +254,7 @@ void menu(){
 				break;
 		case 3: printf("Ingresar una operacion aritmetica sin parentesis\n");
 				fflush(stdin);
-				//funcionPuntoTres();
+				funcionPuntoTres();
 				break;
 	}
 	}
