@@ -130,6 +130,8 @@ int esCaracterHexa(char *caracter){
 	return 0;
 }
 
+
+
 int main() {
 /*	char caracter;
 	printf("%i", caracterAInt(caracter));*/

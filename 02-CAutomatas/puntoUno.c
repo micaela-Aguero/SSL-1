@@ -3,6 +3,7 @@
 #include <string.h> 
 #include <ctype.h>
 
+
 int columnaDecimales(int x){
 	switch(x){
 		case '+':
@@ -51,8 +52,10 @@ void reconocerPorAutomata(char cadenaEnteros[]){
 	int decimales = 0;
 	int octales = 0;
 	int hexadecimales = 0;
+
 	token = strtok(cadenaEnteros, "$");
-	if(esDecimal(token)){
+	
+    if(esDecimal(token)){
 		decimales++;
 	}else if(esOctal(token)){
 		octales++;
@@ -61,6 +64,7 @@ void reconocerPorAutomata(char cadenaEnteros[]){
 	}else{
 		printf("Hubo error lexico\n");
 	}
+    
 	while (token != NULL){
         token = strtok(NULL, "$");
         if (token != NULL){
@@ -76,8 +80,37 @@ void reconocerPorAutomata(char cadenaEnteros[]){
 	            
         }
     }
-	printf("\n%s%i\n%s%i\n%s%i\n", "- Cantidad decimales: ", decimales, "- Cantidad octales: ", octales, "- Cantidad hexadecimales: ", hexadecimales);
+	printf("- Cantidad decimales: ", decimales, "\n- Cantidad octales: ", octales, "\n- Cantidad hexadecimales: ", hexadecimales, "\n");
 }
+
+int esCaracterHexa(char *caracter){
+	if((caracter>='A' && caracter<='F') || caracter=='X' || caracter=='x'){
+		return 1;
+	}
+	return 0;
+}
+
+int verifica(char cadenaEnteros[]){
+	unsigned i;
+	for (i=0 ; cadenaEnteros[i];i++){
+		if (!(cadenaEnteros[i]== '$' || esCaracterHexa(cadenaEnteros[i]) || isdigit(cadenaEnteros[i]))){
+			return 0;
+		}
+	}	
+	printf("Todos los caracteres pertenecen al alfabeto\n");
+	return 1;
+}
+
+void funcionPuntoUno(char *cadenaEnteros){
+	if(!verifica(cadenaEnteros)){
+		printf("Hay caracteres que no pertenecen al alfabeto\n");
+	}else reconocerPorAutomata(cadenaEnteros);
+		menu();
+}
+
+
+
+
 
 void abrirArchivo(char nombreArchivo[]){
     FILE *archivo;
@@ -95,7 +128,7 @@ void abrirArchivo(char nombreArchivo[]){
         }
         cadena[i] = '\0';
         printf("%s\n", cadena);
-        reconocerPorAutomata(cadena);
+        funcionPuntoUno(cadena);
     }
     fclose(archivo);
 }
@@ -109,7 +142,7 @@ void menu(){
         case 1: printf("Ingrese la expresion separada por $: \n");
                 char cadena[100];
                 scanf("%s", &cadena);
-                reconocerPorAutomata(cadena);
+                funcionPuntoUno(cadena);
                 break;
         case 2: printf("Ingrese el nombre del archivo: \n");
                 char nombreArchivo[100];
