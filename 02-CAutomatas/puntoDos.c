@@ -7,7 +7,7 @@ int caracterAInt(char caracter){
     return caracter - 48;
 }
 
-void funcionPuntoDos(char caracter){
+int funcionPuntoDos(char caracter){
 
 	printf("%i", caracterAInt(caracter));
 }

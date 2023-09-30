@@ -27,8 +27,8 @@ int columnaOctales(int x){
 			return 1;
 		case '7':
 			return 1;
-	/*	default:
-			return 0;*/
+		default:
+			return -1;
 		
 
 	}
