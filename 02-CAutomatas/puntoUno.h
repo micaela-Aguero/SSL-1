@@ -1,6 +1,6 @@
 #ifndef PUNTOUNO_H
 #define PUNTOUNO_H
 
-int esDecimal(char *cadena);
+int funcion1(char *cadena,int impresion);
 
 #endif 
