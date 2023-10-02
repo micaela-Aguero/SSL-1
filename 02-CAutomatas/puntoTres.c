@@ -32,7 +32,7 @@ int pop(ptrNodo* pila)
 	return x;
 }
 
-/*
+
 // Punto 1)
 
 // Declaracion de las transiciones del automata 
@@ -63,7 +63,7 @@ int queColumnaPertenceElCaracter(char caracter){
 	if(strchr(D,caracter) != NULL){
 		colum = 4;
 	}
-	if('&' == caracter){
+	if('$' == caracter){
 		colum = 5;
 	}
 	if('+' == caracter){
@@ -101,16 +101,16 @@ int funcion1(char *cadena,int impresion){
 
 
 	while(1){
-		if(*ptr == '&' && estado == estadoError || *ptr == '\0' && estado == estadoError){
+		if(*ptr == '$' && estado == estadoError || *ptr == '\0' && estado == estadoError){
 			cantError++;
 		}
-		if(*ptr == '&' && estado == estadosAceptacion[0] || *ptr == '\0' && estado == estadosAceptacion[0]){
+		if(*ptr == '$' && estado == estadosAceptacion[0] || *ptr == '\0' && estado == estadosAceptacion[0]){
 			cantHexa++;
 		}
-		if(*ptr == '&' && estado == estadosAceptacion[1] || *ptr == '\0' && estado == estadosAceptacion[1]){
+		if(*ptr == '$' && estado == estadosAceptacion[1] || *ptr == '\0' && estado == estadosAceptacion[1]){
 			cantOctal++;
 		}
-		if(*ptr == '&' && estado == estadosAceptacion[2] || *ptr == '\0' && estado == estadosAceptacion[2]){
+		if(*ptr == '$' && estado == estadosAceptacion[2] || *ptr == '\0' && estado == estadosAceptacion[2]){
 			cantDecimal++;
 		}
 		if(*ptr == '\0')
@@ -148,17 +148,12 @@ int funcion1(char *cadena,int impresion){
 
 // Punto 2)
 
-int caracterAInt(char* c){
-	int number = 0;
-	int i = 0, z = 1;
-
-	number += (*(c) - '0');
-
-	return number;
+int caracterAInt(char caracter){
+    return caracter - 48;
 }
 
 
-*/
+
 // Punto 3)
 
 int operandos(char * numeros){
@@ -251,12 +246,12 @@ void verificarCadenaFun3(char *aux){
 	char cadena[100];
 	char* ptr = aux;
 	char* ptr2 = cadena;
-// Copia la cadena y cambia todos los operadores por '&', para verificarla con la funcion1
+// Copia la cadena y cambia todos los operadores por '$', para verificarla con la funcion1
 	strcpy(cadena, aux);
 
 	while(*ptr2 != '\0'){
 		if(*ptr2 == '+' || *ptr2 == '-' || *ptr2 == '*' || *ptr2 == '/'){
-			*ptr2 = '&';
+			*ptr2 = '$';
 		}
 		ptr2++;
 	}
@@ -272,7 +267,8 @@ void verificarCadenaFun3(char *aux){
 }
 
 int main(void){
-	
-	
+	char cadena[50];
+	scanf("%s", cadena);
+	verificarCadenaFun3(cadena);
 	return 0;
 }
