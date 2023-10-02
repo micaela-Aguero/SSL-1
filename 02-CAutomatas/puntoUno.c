@@ -90,18 +90,13 @@ int funcionPuntoUno(char *cadena){
 		ptr++;
 	}	
 
-		printf("---------------------------------------------------\n");
-	
 		printf("La cadena a procesar es : %s\n",cadena);
 
-		printf("---------------------------------------------------\n");
+		printf("Errores: %i\n", cantError );
+		printf("Cantiad de Decimales: %i\n", cantDecimal );
+		printf("Cantidad de Hexadecimales: %i\n", cantHexa );
+		printf("Cant de Octales: %i\n", cantOctal );
 
-		printf("cantError: %i\n", cantError );
-		printf("cantDecimales: %i\n", cantDecimal );
-		printf("cantHexa: %i\n", cantHexa );
-		printf("cantOctal: %i\n", cantOctal );
-
-		printf("---------------------------------------------------\n");
 	
 	int error = cantDecimal;
 
@@ -142,7 +137,6 @@ int menu(){
     switch (opcion){
         case 1: printf("Ingrese la expresion separada por $: \n");
                 char cadena[100];
-				
                 scanf("%s", &cadena);
                 funcionPuntoUno(cadena);
                 break;

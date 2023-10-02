@@ -3,8 +3,6 @@
 #include <ctype.h>
 #include <stdlib.h>
 #include <conio.h>
-#include "../02-CAutomatas/puntoUno.h"
-#include "../02-CAutomatas/puntoDos.h"
 
 // Funciones y estructura de las pilas
 
@@ -41,8 +39,6 @@ char N_0[] = {'1','2','3','4','5','6','7'};
 char N_X[] = {'A','B','C','D','E','F'};
 char D[] = {'8','9'};
 
-
-//  Calcula las transiciones del automata
 
 int queColumnaPertenceElCaracter(char caracter){
 	
@@ -241,7 +237,7 @@ int operandos(char * numeros){
 	
 }
 
-void verificarCadenaFun3(char *aux){
+void funcionPuntoTres(char *aux){
 
 	char cadena[100];
 	char* ptr = aux;
@@ -266,9 +262,51 @@ void verificarCadenaFun3(char *aux){
 	}
 }
 
+void abrirArchivo(char nombreArchivo[]){
+    FILE *archivo;
+    char caracter;
+    char cadena[100];
+    int i = 0;
+    archivo = fopen(nombreArchivo,"r");
+    if (archivo == NULL){
+        printf("\nError de apertura del archivo. \n\n");
+    }else{
+        printf("\nEl contenido del archivo de prueba es \n\n");
+        while((caracter = fgetc(archivo)) != EOF){
+            cadena[i] = caracter;
+            i++;
+        }
+        cadena[i] = '\0';
+        printf("%s\n", cadena);
+        funcionPuntoTres(cadena);
+    }
+    fclose(archivo);
+}
+
+void menu(){
+	printf("Ingrese una opcion: \n");
+	printf("1) Ingresar la operación por linea de comando \n");
+	printf("2) Ingresar la operación por archivo \n");
+
+	int opcion;
+	scanf("%i",&opcion);
+
+	switch (opcion){
+		case 1:printf("Ingrese la operacion: \n");
+			   char cadena[100];
+			   scanf("%s",cadena);
+			   funcionPuntoTres(cadena);
+			   break;
+		case 2:printf("Ingrese el nombre del archivo: \n");
+			   char nombreArchivo[100];
+			   scanf("%s",nombreArchivo);
+			   abrirArchivo(nombreArchivo);
+			   break;
+	}
+
+}
+
 int main(void){
-	char cadena[50];
-	scanf("%s", cadena);
-	verificarCadenaFun3(cadena);
+	menu();
 	return 0;
 }
