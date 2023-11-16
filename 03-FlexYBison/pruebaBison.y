@@ -1,48 +1,49 @@
 %{
-
-    #include <stdio.h>
-    int yylex();
-    int yyerror(char *s);
-
+#include <stdio.h>
+#include <stdlib.h> 
+#include <math.h>
+extern char *yytext;
+extern int yyleng;
+extern int yylex(void);
+extern void yyerror(char*);
+int variable=0;
 %}
-
-%token HOLA ENTERO PUNTOYCOMA IDENTIFICADOR OTRO //son los que puse en el return de flex
-
-
 %union{
-    char cadena[100];
-    int digito;
-    char *reservada;
-
-}
-
-%type <cadena> IDENTIFICADOR
-%type <digito> ENTERO
-%type <reservada> HOLA
-
-
+   char* cadena;
+   int num;
+} 
+%token ASIGNACION PYCOMA SUMA RESTA PARENIZQUIERDO PARENDERECHO COMA ESCRIBIR LEER INICIO FIN FDT
+%token <cadena> ID
+%token <num> CONSTANTE
 %%
 
-programa: programa sentencia
-        | sentencia PUNTOYCOMA
-        ;
+objetivo : programa FDT {exit(0);};
+programa : INICIO FIN 					{exit(0);}
+|INICIO sentencias FIN 	{exit(0);}
+;
 
-sentencia:
-        | IDENTIFICADOR {printf("Identificador: %s\n", $1);}
-        | ENTERO {printf("Entero: %d\n", $1);}
-        | HOLA {printf("Hola genio");}
-        | OTRO
-
+sentencias: sentencias sentencia 
+|sentencia
+;
+sentencia: ID {printf("La longitud del identificador es: %d",yyleng);if(yyleng>32) yyerror("Error semantico, el identificador excede el limite de caracteres por identificador (32)");} ASIGNACION expresion PYCOMA
+;
+expresion: primaria 
+|expresion operadorAditivo primaria 
+; 
+primaria: ID
+|CONSTANTE {printf("valores %d %d",atoi(yytext),$1+$3); }
+|PARENIZQUIERDO expresion PARENDERECHO
+;
+operadorAditivo: SUMA 
+| RESTA
+;
 %%
-
-int yyerror(char *s){
-    printf("Error sintactico: %s\n", s);
-    return 0;
+int main() {
+yyparse();
 }
-
-int main(){
-    yyparse();
-    return 0;
+void yyerror (char *s){
+printf ("%s\n",s);
 }
-
-%%
+int yywrap()  {
+  return 1;  
+} 
