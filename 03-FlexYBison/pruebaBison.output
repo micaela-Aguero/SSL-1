@@ -1,0 +1,127 @@
+Estado 5 conflictos: 5 desplazamiento(s)/reducción(ones)
+
+
+Gramática
+
+    0 $accept: programa $end
+
+    1 programa: programa sentencia
+    2         | sentencia PUNTOYCOMA
+
+    3 sentencia: /* vacío */
+    4          | IDENTIFICADOR
+    5          | ENTERO
+    6          | HOLA
+    7          | OTRO
+
+
+Terminales con las reglas donde aparecen
+
+$end (0) 0
+error (256)
+HOLA (258) 6
+ENTERO (259) 5
+PUNTOYCOMA (260) 2
+IDENTIFICADOR (261) 4
+OTRO (262) 7
+
+
+No terminales con las reglas donde aparecen
+
+$accept (8)
+    en la izquierda: 0
+programa (9)
+    en la izquierda: 1 2, en la derecha: 0 1
+sentencia (10)
+    en la izquierda: 3 4 5 6 7, en la derecha: 1 2
+
+
+estado 0
+
+    0 $accept: . programa $end
+
+    HOLA           desplazar e ir al estado 1
+    ENTERO         desplazar e ir al estado 2
+    IDENTIFICADOR  desplazar e ir al estado 3
+    OTRO           desplazar e ir al estado 4
+
+    $default  reduce usando la regla 3 (sentencia)
+
+    programa   ir al estado 5
+    sentencia  ir al estado 6
+
+
+estado 1
+
+    6 sentencia: HOLA .
+
+    $default  reduce usando la regla 6 (sentencia)
+
+
+estado 2
+
+    5 sentencia: ENTERO .
+
+    $default  reduce usando la regla 5 (sentencia)
+
+
+estado 3
+
+    4 sentencia: IDENTIFICADOR .
+
+    $default  reduce usando la regla 4 (sentencia)
+
+
+estado 4
+
+    7 sentencia: OTRO .
+
+    $default  reduce usando la regla 7 (sentencia)
+
+
+estado 5
+
+    0 $accept: programa . $end
+    1 programa: programa . sentencia
+
+    $end           desplazar e ir al estado 7
+    HOLA           desplazar e ir al estado 1
+    ENTERO         desplazar e ir al estado 2
+    IDENTIFICADOR  desplazar e ir al estado 3
+    OTRO           desplazar e ir al estado 4
+
+    $end           [reduce usando la regla 3 (sentencia)]
+    HOLA           [reduce usando la regla 3 (sentencia)]
+    ENTERO         [reduce usando la regla 3 (sentencia)]
+    IDENTIFICADOR  [reduce usando la regla 3 (sentencia)]
+    OTRO           [reduce usando la regla 3 (sentencia)]
+
+    sentencia  ir al estado 8
+
+
+estado 6
+
+    2 programa: sentencia . PUNTOYCOMA
+
+    PUNTOYCOMA  desplazar e ir al estado 9
+
+
+estado 7
+
+    0 $accept: programa $end .
+
+    $default  aceptar
+
+
+estado 8
+
+    1 programa: programa sentencia .
+
+    $default  reduce usando la regla 1 (programa)
+
+
+estado 9
+
+    2 programa: sentencia PUNTOYCOMA .
+
+    $default  reduce usando la regla 2 (programa)
