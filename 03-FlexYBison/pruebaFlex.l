@@ -1,27 +1,33 @@
 %{
 	#include <stdio.h>
 	#include <stdlib.h>
-	#include "pruebaBison.tab.h"
-
-	void showError();
+	#include "y.tab.h"
 %}
+DIGITO [0-9]
 
-DIGITO ([0-9])
-LETRA ([a-zA-Z])
+LETRA [a-zA-Z]
 
+IDENTIFICADOR {LETRA}({LETRA}|{DIGITO})*
+separador [\t]+
+constEntera {DIGITO}({DIGITO})*
 %%
+":=" {return (ASIGNACION);}
+{constEntera} {yylval.num=atoi(yytext);return (CONSTANTE);}
+{IDENTIFICADOR} {return (ID);}
+{separador}     {/omitir/}
+";" {return (PYCOMA);}
+"," {return (COMA);}
+"(" {return (PARENIZQUIERDO);}
+")" {return (PARENDERECHO);}
+"+" {return (SUMA);}
+"-" {return (RESTA);}
+"inicio" {return (INICIO);}
+"fin" {return (FIN);}
+"leer" {return (LEER);}
+"escribir" {return (ESCRIBIR);}
+. {errorLexico();}
+%% 
 
-"hola" {yylval.reservada = yytext; return (HOLA);}
-{DIGITO} {yylval.digito = atoi(yytext); return (ENTERO);}
-";" {return (PUNTOYCOMA);}
-{LETRA} {sscanf(yytext, "%s", yyval.cadena); return (IDENTIFICADOR);}
-. {showError();return(OTRO);}
-
-
-%%
-
-showError(char* otro){
-	printf("-----<<<<< Error lexico: \"%s\" >>>>>-----\n", otro);
+void errorLexico(void){
+    printf("Error Lexico: se ha ingresado un caracter invalido (%s)\n", yytext);
 }
-
-
