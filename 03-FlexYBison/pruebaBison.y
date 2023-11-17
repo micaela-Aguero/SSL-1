@@ -69,7 +69,7 @@ typedef struct Identificador {
 		int valor;
 } Identificador;
 
-Identificador buffer[1000]; */Identificadores*/
+Identificador buffer[1000]; 
 int tope = 0; 
 void leer_id(char* nombre);
 void escribir_exp(int valor);
@@ -87,46 +87,6 @@ int yywrap()  {
   return 1;  
 } 
 
-int main() {
-int menu = 0;
-	char file [30];
-	if(argc == 1) {
-		system("clear");
-		printf("Ingrese 1 para escribir el nombre del archivo que desea abrir\n");
-		printf("Ingrese 2 para escribir el codigo micro. (no olvides comenzar con 'inicio' y terminar con 'fin'\n OPCION: ");
-		scanf("%d", &menu);
-
-		while (menu != 0) {
-			if(menu == 1){
-				printf("archivo: ");
-				scanf("%s", file);
-				if((yyin=fopen(file,"rb"))){
-					yyparse();
-				} else {
-					printf("Error al abrir el archivo %s\n", file);
-				}
-			}
-			else if (menu == 2) {
-				printf("Ingrese el codigo micro:\n");
-				yyparse();
-			}
-			else {
-				printf("Opcion invalida! \n0) para salir, \n1) para el ingresar el codigo a traves de un archivo, \n2) para ingresarlo de forma manual\n");
-			}
-		}
-	} 
-
-	else if (argc == 2){
-		if((yyin=fopen(argv[1], "rb"))){
-			yyparse();
-		} else {
-			printf("Error al abrir el archivo %s\n", argv[1]);
-		}
-	}
-
-	else {
-		printf("Error en los argumentos del main!");
-	}
-
-return 0;
+int main(int argc, char* argv[]) {
+yyparse();
 }
