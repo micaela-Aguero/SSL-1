@@ -1,127 +1,449 @@
-Estado 5 conflictos: 5 desplazamiento(s)/reducción(ones)
-
-
 Gramática
 
-    0 $accept: programa $end
+    0 $accept: objetivo $end
 
-    1 programa: programa sentencia
-    2         | sentencia PUNTOYCOMA
+    1 objetivo: programa FDT
 
-    3 sentencia: /* vacío */
-    4          | IDENTIFICADOR
-    5          | ENTERO
-    6          | HOLA
-    7          | OTRO
+    2 programa: INICIO FIN
+    3         | INICIO listaSentencias FIN
+
+    4 listaSentencias: sentencia
+    5                | listaSentencias sentencia
+
+    6 $@1: /* vacío */
+
+    7 sentencia: ID $@1 ASIGNACION expresion PYCOMA
+    8          | LEER PARENIZQUIERDO listaIdentificadores PARENDERECHO PYCOMA
+    9          | ESCRIBIR PARENIZQUIERDO listaExpresiones PARENDERECHO PYCOMA
+
+   10 listaIdentificadores: expresion
+   11                     | listaIdentificadores COMA ID
+
+   12 listaExpresiones: expresion
+   13                 | listaExpresiones COMA expresion
+
+   14 expresion: primaria
+   15          | expresion SUMA primaria
+   16          | expresion RESTA primaria
+
+   17 primaria: ID
+   18         | CONSTANTE
+   19         | PARENIZQUIERDO expresion PARENDERECHO
 
 
 Terminales con las reglas donde aparecen
 
 $end (0) 0
 error (256)
-HOLA (258) 6
-ENTERO (259) 5
-PUNTOYCOMA (260) 2
-IDENTIFICADOR (261) 4
-OTRO (262) 7
+ASIGNACION (258) 7
+PYCOMA (259) 7 8 9
+SUMA (260) 15
+RESTA (261) 16
+PARENIZQUIERDO (262) 8 9 19
+PARENDERECHO (263) 8 9 19
+ID (264) 7 11 17
+COMA (265) 11 13
+ESCRIBIR (266) 9
+LEER (267) 8
+INICIO (268) 2 3
+FIN (269) 2 3
+FDT (270) 1
+CONSTANTE (271) 18
 
 
 No terminales con las reglas donde aparecen
 
-$accept (8)
+$accept (17)
     en la izquierda: 0
-programa (9)
-    en la izquierda: 1 2, en la derecha: 0 1
-sentencia (10)
-    en la izquierda: 3 4 5 6 7, en la derecha: 1 2
+objetivo (18)
+    en la izquierda: 1, en la derecha: 0
+programa (19)
+    en la izquierda: 2 3, en la derecha: 1
+listaSentencias (20)
+    en la izquierda: 4 5, en la derecha: 3 5
+sentencia (21)
+    en la izquierda: 7 8 9, en la derecha: 4 5
+$@1 (22)
+    en la izquierda: 6, en la derecha: 7
+listaIdentificadores (23)
+    en la izquierda: 10 11, en la derecha: 8 11
+listaExpresiones (24)
+    en la izquierda: 12 13, en la derecha: 9 13
+expresion (25)
+    en la izquierda: 14 15 16, en la derecha: 7 10 12 13 15 16 19
+primaria (26)
+    en la izquierda: 17 18 19, en la derecha: 14 15 16
 
 
 estado 0
 
-    0 $accept: . programa $end
+    0 $accept: . objetivo $end
 
-    HOLA           desplazar e ir al estado 1
-    ENTERO         desplazar e ir al estado 2
-    IDENTIFICADOR  desplazar e ir al estado 3
-    OTRO           desplazar e ir al estado 4
+    INICIO  desplazar e ir al estado 1
 
-    $default  reduce usando la regla 3 (sentencia)
-
-    programa   ir al estado 5
-    sentencia  ir al estado 6
+    objetivo  ir al estado 2
+    programa  ir al estado 3
 
 
 estado 1
 
-    6 sentencia: HOLA .
+    2 programa: INICIO . FIN
+    3         | INICIO . listaSentencias FIN
 
-    $default  reduce usando la regla 6 (sentencia)
+    ID        desplazar e ir al estado 4
+    ESCRIBIR  desplazar e ir al estado 5
+    LEER      desplazar e ir al estado 6
+    FIN       desplazar e ir al estado 7
+
+    listaSentencias  ir al estado 8
+    sentencia        ir al estado 9
 
 
 estado 2
 
-    5 sentencia: ENTERO .
+    0 $accept: objetivo . $end
 
-    $default  reduce usando la regla 5 (sentencia)
+    $end  desplazar e ir al estado 10
 
 
 estado 3
 
-    4 sentencia: IDENTIFICADOR .
+    1 objetivo: programa . FDT
 
-    $default  reduce usando la regla 4 (sentencia)
+    FDT  desplazar e ir al estado 11
 
 
 estado 4
 
-    7 sentencia: OTRO .
+    7 sentencia: ID . $@1 ASIGNACION expresion PYCOMA
 
-    $default  reduce usando la regla 7 (sentencia)
+    $default  reduce usando la regla 6 ($@1)
+
+    $@1  ir al estado 12
 
 
 estado 5
 
-    0 $accept: programa . $end
-    1 programa: programa . sentencia
+    9 sentencia: ESCRIBIR . PARENIZQUIERDO listaExpresiones PARENDERECHO PYCOMA
 
-    $end           desplazar e ir al estado 7
-    HOLA           desplazar e ir al estado 1
-    ENTERO         desplazar e ir al estado 2
-    IDENTIFICADOR  desplazar e ir al estado 3
-    OTRO           desplazar e ir al estado 4
-
-    $end           [reduce usando la regla 3 (sentencia)]
-    HOLA           [reduce usando la regla 3 (sentencia)]
-    ENTERO         [reduce usando la regla 3 (sentencia)]
-    IDENTIFICADOR  [reduce usando la regla 3 (sentencia)]
-    OTRO           [reduce usando la regla 3 (sentencia)]
-
-    sentencia  ir al estado 8
+    PARENIZQUIERDO  desplazar e ir al estado 13
 
 
 estado 6
 
-    2 programa: sentencia . PUNTOYCOMA
+    8 sentencia: LEER . PARENIZQUIERDO listaIdentificadores PARENDERECHO PYCOMA
 
-    PUNTOYCOMA  desplazar e ir al estado 9
+    PARENIZQUIERDO  desplazar e ir al estado 14
 
 
 estado 7
 
-    0 $accept: programa $end .
+    2 programa: INICIO FIN .
 
-    $default  aceptar
+    $default  reduce usando la regla 2 (programa)
 
 
 estado 8
 
-    1 programa: programa sentencia .
+    3 programa: INICIO listaSentencias . FIN
+    5 listaSentencias: listaSentencias . sentencia
 
-    $default  reduce usando la regla 1 (programa)
+    ID        desplazar e ir al estado 4
+    ESCRIBIR  desplazar e ir al estado 5
+    LEER      desplazar e ir al estado 6
+    FIN       desplazar e ir al estado 15
+
+    sentencia  ir al estado 16
 
 
 estado 9
 
-    2 programa: sentencia PUNTOYCOMA .
+    4 listaSentencias: sentencia .
 
-    $default  reduce usando la regla 2 (programa)
+    $default  reduce usando la regla 4 (listaSentencias)
+
+
+estado 10
+
+    0 $accept: objetivo $end .
+
+    $default  aceptar
+
+
+estado 11
+
+    1 objetivo: programa FDT .
+
+    $default  reduce usando la regla 1 (objetivo)
+
+
+estado 12
+
+    7 sentencia: ID $@1 . ASIGNACION expresion PYCOMA
+
+    ASIGNACION  desplazar e ir al estado 17
+
+
+estado 13
+
+    9 sentencia: ESCRIBIR PARENIZQUIERDO . listaExpresiones PARENDERECHO PYCOMA
+
+    PARENIZQUIERDO  desplazar e ir al estado 18
+    ID              desplazar e ir al estado 19
+    CONSTANTE       desplazar e ir al estado 20
+
+    listaExpresiones  ir al estado 21
+    expresion         ir al estado 22
+    primaria          ir al estado 23
+
+
+estado 14
+
+    8 sentencia: LEER PARENIZQUIERDO . listaIdentificadores PARENDERECHO PYCOMA
+
+    PARENIZQUIERDO  desplazar e ir al estado 18
+    ID              desplazar e ir al estado 19
+    CONSTANTE       desplazar e ir al estado 20
+
+    listaIdentificadores  ir al estado 24
+    expresion             ir al estado 25
+    primaria              ir al estado 23
+
+
+estado 15
+
+    3 programa: INICIO listaSentencias FIN .
+
+    $default  reduce usando la regla 3 (programa)
+
+
+estado 16
+
+    5 listaSentencias: listaSentencias sentencia .
+
+    $default  reduce usando la regla 5 (listaSentencias)
+
+
+estado 17
+
+    7 sentencia: ID $@1 ASIGNACION . expresion PYCOMA
+
+    PARENIZQUIERDO  desplazar e ir al estado 18
+    ID              desplazar e ir al estado 19
+    CONSTANTE       desplazar e ir al estado 20
+
+    expresion  ir al estado 26
+    primaria   ir al estado 23
+
+
+estado 18
+
+   19 primaria: PARENIZQUIERDO . expresion PARENDERECHO
+
+    PARENIZQUIERDO  desplazar e ir al estado 18
+    ID              desplazar e ir al estado 19
+    CONSTANTE       desplazar e ir al estado 20
+
+    expresion  ir al estado 27
+    primaria   ir al estado 23
+
+
+estado 19
+
+   17 primaria: ID .
+
+    $default  reduce usando la regla 17 (primaria)
+
+
+estado 20
+
+   18 primaria: CONSTANTE .
+
+    $default  reduce usando la regla 18 (primaria)
+
+
+estado 21
+
+    9 sentencia: ESCRIBIR PARENIZQUIERDO listaExpresiones . PARENDERECHO PYCOMA
+   13 listaExpresiones: listaExpresiones . COMA expresion
+
+    PARENDERECHO  desplazar e ir al estado 28
+    COMA          desplazar e ir al estado 29
+
+
+estado 22
+
+   12 listaExpresiones: expresion .
+   15 expresion: expresion . SUMA primaria
+   16          | expresion . RESTA primaria
+
+    SUMA   desplazar e ir al estado 30
+    RESTA  desplazar e ir al estado 31
+
+    $default  reduce usando la regla 12 (listaExpresiones)
+
+
+estado 23
+
+   14 expresion: primaria .
+
+    $default  reduce usando la regla 14 (expresion)
+
+
+estado 24
+
+    8 sentencia: LEER PARENIZQUIERDO listaIdentificadores . PARENDERECHO PYCOMA
+   11 listaIdentificadores: listaIdentificadores . COMA ID
+
+    PARENDERECHO  desplazar e ir al estado 32
+    COMA          desplazar e ir al estado 33
+
+
+estado 25
+
+   10 listaIdentificadores: expresion .
+   15 expresion: expresion . SUMA primaria
+   16          | expresion . RESTA primaria
+
+    SUMA   desplazar e ir al estado 30
+    RESTA  desplazar e ir al estado 31
+
+    $default  reduce usando la regla 10 (listaIdentificadores)
+
+
+estado 26
+
+    7 sentencia: ID $@1 ASIGNACION expresion . PYCOMA
+   15 expresion: expresion . SUMA primaria
+   16          | expresion . RESTA primaria
+
+    PYCOMA  desplazar e ir al estado 34
+    SUMA    desplazar e ir al estado 30
+    RESTA   desplazar e ir al estado 31
+
+
+estado 27
+
+   15 expresion: expresion . SUMA primaria
+   16          | expresion . RESTA primaria
+   19 primaria: PARENIZQUIERDO expresion . PARENDERECHO
+
+    SUMA          desplazar e ir al estado 30
+    RESTA         desplazar e ir al estado 31
+    PARENDERECHO  desplazar e ir al estado 35
+
+
+estado 28
+
+    9 sentencia: ESCRIBIR PARENIZQUIERDO listaExpresiones PARENDERECHO . PYCOMA
+
+    PYCOMA  desplazar e ir al estado 36
+
+
+estado 29
+
+   13 listaExpresiones: listaExpresiones COMA . expresion
+
+    PARENIZQUIERDO  desplazar e ir al estado 18
+    ID              desplazar e ir al estado 19
+    CONSTANTE       desplazar e ir al estado 20
+
+    expresion  ir al estado 37
+    primaria   ir al estado 23
+
+
+estado 30
+
+   15 expresion: expresion SUMA . primaria
+
+    PARENIZQUIERDO  desplazar e ir al estado 18
+    ID              desplazar e ir al estado 19
+    CONSTANTE       desplazar e ir al estado 20
+
+    primaria  ir al estado 38
+
+
+estado 31
+
+   16 expresion: expresion RESTA . primaria
+
+    PARENIZQUIERDO  desplazar e ir al estado 18
+    ID              desplazar e ir al estado 19
+    CONSTANTE       desplazar e ir al estado 20
+
+    primaria  ir al estado 39
+
+
+estado 32
+
+    8 sentencia: LEER PARENIZQUIERDO listaIdentificadores PARENDERECHO . PYCOMA
+
+    PYCOMA  desplazar e ir al estado 40
+
+
+estado 33
+
+   11 listaIdentificadores: listaIdentificadores COMA . ID
+
+    ID  desplazar e ir al estado 41
+
+
+estado 34
+
+    7 sentencia: ID $@1 ASIGNACION expresion PYCOMA .
+
+    $default  reduce usando la regla 7 (sentencia)
+
+
+estado 35
+
+   19 primaria: PARENIZQUIERDO expresion PARENDERECHO .
+
+    $default  reduce usando la regla 19 (primaria)
+
+
+estado 36
+
+    9 sentencia: ESCRIBIR PARENIZQUIERDO listaExpresiones PARENDERECHO PYCOMA .
+
+    $default  reduce usando la regla 9 (sentencia)
+
+
+estado 37
+
+   13 listaExpresiones: listaExpresiones COMA expresion .
+   15 expresion: expresion . SUMA primaria
+   16          | expresion . RESTA primaria
+
+    SUMA   desplazar e ir al estado 30
+    RESTA  desplazar e ir al estado 31
+
+    $default  reduce usando la regla 13 (listaExpresiones)
+
+
+estado 38
+
+   15 expresion: expresion SUMA primaria .
+
+    $default  reduce usando la regla 15 (expresion)
+
+
+estado 39
+
+   16 expresion: expresion RESTA primaria .
+
+    $default  reduce usando la regla 16 (expresion)
+
+
+estado 40
+
+    8 sentencia: LEER PARENIZQUIERDO listaIdentificadores PARENDERECHO PYCOMA .
+
+    $default  reduce usando la regla 8 (sentencia)
+
+
+estado 41
+
+   11 listaIdentificadores: listaIdentificadores COMA ID .
+
+    $default  reduce usando la regla 11 (listaIdentificadores)

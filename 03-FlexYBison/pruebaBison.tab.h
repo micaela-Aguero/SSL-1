@@ -39,11 +39,20 @@
    /* Put the tokens into the symbol table, so that GDB and other debuggers
       know about them.  */
    enum yytokentype {
-     HOLA = 258,
-     ENTERO = 259,
-     PUNTOYCOMA = 260,
-     IDENTIFICADOR = 261,
-     OTRO = 262
+     ASIGNACION = 258,
+     PYCOMA = 259,
+     SUMA = 260,
+     RESTA = 261,
+     PARENIZQUIERDO = 262,
+     PARENDERECHO = 263,
+     ID = 264,
+     COMA = 265,
+     ESCRIBIR = 266,
+     LEER = 267,
+     INICIO = 268,
+     FIN = 269,
+     FDT = 270,
+     CONSTANTE = 271
    };
 #endif
 
@@ -54,17 +63,15 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-#line 12 "pruebaBison.y"
+#line 11 "pruebaBison.y"
 
-    char cadena[100];
-    int digito;
-    char *reservada;
-
+   char* cadena;
+   int num;
 
 
 
 /* Line 1676 of yacc.c  */
-#line 68 "pruebaBison.tab.h"
+#line 75 "pruebaBison.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
