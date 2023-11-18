@@ -14,12 +14,11 @@ int variable=0;
 } 
 %token ASIGNACION PYCOMA SUMA RESTA PARENIZQUIERDO PARENDERECHO ID COMA ESCRIBIR LEER INICIO FIN FDT 
 %token <num> CONSTANTE
-
+%token <cadena> ID sentencia
 %left   SUMA  RESTA	 COMA
 %right  ASIGNACION	
 
 %type <num> expresion primaria 
-%type <cadena> ID sentencia
 
 %start objetivo
 %%
@@ -36,7 +35,7 @@ listaSentencias: sentencia {}
  
 
 
-sentencia: ID {printf("La longitud del identificador es: %d",yyleng); masDe32Caracteres();} ASIGNACION expresion PYCOMA    {asignar($1, $<num>3);}
+sentencia: ID {printf("La longitud del identificador es: %d",yyleng); masDe32Caracteres();} ASIGNACION expresion PYCOMA    {asignar($1, $3);}
 |LEER PARENIZQUIERDO listaIdentificadores PARENDERECHO PYCOMA   {}
 |ESCRIBIR PARENIZQUIERDO listaExpresiones PARENDERECHO PYCOMA   {}
 ;
@@ -57,7 +56,7 @@ expresion: primaria                                        {$$ = $1;}
 
 
 primaria: ID                                              {leerIdentificador($1);}
-|CONSTANTE                                                {printf("valores %d %d",atoi(yytext),$<num>1); $$ = $<num>1;}
+|CONSTANTE                                                {printf("valores %d %d",atoi(yytext),$1); $$ = $1;}
 |PARENIZQUIERDO expresion PARENDERECHO                    {}
 ;
 %%
@@ -95,7 +94,7 @@ void leer_id(){
       return;
     }
   }
-  printf("Error semantico, el identificador %s no fue declarado\n",yytext);
+  printf("Error semantico, identificador %s no declarado!\n",yytext);
 }
 
 void asignar(nombre, valor){
@@ -127,6 +126,55 @@ listaIdentificadores(){
   }
 }
 
+void escribir_exp(int valor) {
+	char nombre[largo];
+	listarIdentificadores();
+	printf("ID a asignar el valor %d: ", valor);
+	scanf("%s", nombre);
+	asignar(nombre, valor);
+}
 int main(int argc, char* argv[]) {
-yyparse();
+	int opcion = 0;
+	char archivo [50];
+	if(argc == 1) {
+		printf("1) Escribir el nombre del archivo con codigo micro\n");
+		printf("2) Para escribir codigo micro\n");
+		scanf("%d", &opcion);
+
+		while (opcion != 0) {
+		    switch (opcion){
+		        case 1: 
+		        printf("archivo: ");
+				scanf("%s", archivo);
+				if((yyin=fopen(archivo,"rb"))){
+					yyparse();
+				} else {
+					printf("Error al abrir el archivo: %s\n", archivo);
+				}
+				break;
+				case 2:
+					printf("Ingresar codigo micro: \n");
+				yyparse();
+				break;
+				default:
+                printf("Ingrese una opcion valida. \n");
+                printf("0) Salir, \n1) Para escribir el nombre del archivo con codigo micr, \n2) Para escribir codigo micro\n");
+  
+		    }
+		}
+	} 
+
+	else if (argc == 2){
+		if((yyin=fopen(argv[1], "rb"))){
+			yyparse();
+		} else {
+			printf("Error al intentar abrir el archivo %s\n", argv[1]);
+		}
+	}
+
+	else {
+		printf("Error en los argumentos del main!");
+	}
+
+return 0;
 }
